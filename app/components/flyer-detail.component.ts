@@ -63,11 +63,12 @@ export class FlyerDetailComponent implements OnInit {
 	
 	uploadPhoto(event): void {
 		let file: any = event.srcElement[0].files[0];
+		let me = this;
+		let callback: any = function() { me.save(false); };
 		
 		this.flyerService
-			.uploadPhoto(this.flyer, file)
+			.uploadPhoto(this.flyer, file, callback)
 			.toPromise()
-			.then(this.save(false))
 			.catch(error => this.error = error);
 	}
 }
