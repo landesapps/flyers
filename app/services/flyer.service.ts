@@ -96,8 +96,6 @@ export class FlyerService {
 		let url = `${this.flyersUrl}/${flyer.id}/photos`;
 		
 		return this.makeFileRequest(url, flyer.user_id, photo)
-//			.toPromise()
-//			.then(flyer => flyer)
 			.catch(this.handleError);
 	}
 
