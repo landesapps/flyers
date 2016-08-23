@@ -92,15 +92,15 @@ export class FlyerService {
 		return this.post(flyer);
         }
 
-	uploadPhoto(flyer: Flyer, photo: any): Observable {
+	uploadPhoto(flyer: Flyer, photo: any, callback: any) {
 		let url = `${this.flyersUrl}/${flyer.id}/photos`;
+		flyer.userId = this.userService.getCurrentUser().id;
 		
-		return this.makeFileRequest(url, flyer.user_id, photo)
+		return this.makeFileRequest(url, flyer.userId, photo, callback)
 			.catch(this.handleError);
 	}
 
-	private makeFileRequest(url: string, userId: string, file: any): Observable {
-		
+	private makeFileRequest(url: string, userId: number, file: any, callback: any) {
 		return Observable.create(observer => {
 			let formData: FormData = new FormData(),
 				xhr: XMLHttpRequest = new XMLHttpRequest();
@@ -111,6 +111,7 @@ export class FlyerService {
 			xhr.addEventListener("readystatechange", function() {
 				if (this.readyState === 4) {
 					console.log(this.responseText);
+					callback();
 				}
 			});
 
