@@ -1,0 +1,19 @@
+<h1>{{title}}</h1>
+<h2>My Flyers</h2>
+<ul class="heroes">
+    <li *ngFor="let flyer of flyers"
+            [class.selected]="flyer === selectedFlyer"
+            (click)="onSelect(flyer)">
+            <span class="badge">{{flyer.id}}</span> {{flyer.street}}
+        <button class="delete-button" (click)="deleteFlyer(flyer, $event)">Delete</button>
+    </li>
+</ul>
+<div class="error" *ngIf="error">{{error}}</div>
+<button (click)="addFlyer()">Add New Flyer</button>
+<div *ngIf="addingFlyer">
+    <my-flyer-detail (close)="close($event)"></my-flyer-detail>
+</div>
+<div *ngIf="selectedFlyer">
+    <h2>{{selectedFlyer.description}}</h2>
+    <button (click)="gotoDetail()">View Details</button>
+</div>

@@ -1,0 +1,39 @@
+<div *ngIf="flyer">
+    <h2>Details!</h2>
+    <div class="details-holder">
+        <label>id: </label>{{flyer.id}}
+    </div>
+    <div class="details-holder">
+        <label>user_id: </label>{{flyer.user_id}}
+    </div>
+    <div class="details-holder">
+        <label>Street: </label>
+        <input [(ngModel)]="flyer.street" placeholder="street" />
+    </div>
+    <div class="details-holder">
+        <label>City: </label>
+        <input [(ngModel)]="flyer.city" placeholder="city" />
+    </div>
+    <div class="details-holder">
+        <label>State: </label>
+        <input [(ngModel)]="flyer.state" placeholder="state" />
+    </div>
+    <div class="details-holder">
+        <label>Country: </label>
+        <input [(ngModel)]="flyer.country" placeholder="country" />
+    </div>
+    <div class="details-holder">
+        <label>Zip: </label>
+        <input [(ngModel)]="flyer.zip" placeholder="zip" />
+    </div>
+    <div class="details-holder">
+        <label>Price: </label>
+        <input [(ngModel)]="flyer.price" placeholder="price" />
+    </div>
+    <div class="details-holder">
+        <label>description: </label>
+        <textarea [(ngModel)]="flyer.description" placeholder="description"></textarea>
+    </div>
+    <button (click)="goBack()">Back</button>
+    <button (click)="save()">Save</button>
+</div>

@@ -1,3 +1,7 @@
 nbproject/*
 node_modules/*
 typings/*
+.project
+.settings/*
+.tern-project
+*.log
