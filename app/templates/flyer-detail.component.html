@@ -37,3 +37,18 @@
     <button (click)="goBack()">Back</button>
     <button (click)="save()">Save</button>
 </div>
+<div *ngIf="flyer && flyer.photos && flyer.photos.length > 0">
+    <h2>Photos!</h2>
+    <form class="float-right" (submit)="uploadPhoto($event)">
+        <div>
+            <label>Upload Photo: </label>
+            <input type="file" name="photoUpload" />
+        </div>
+        <button type="submit">Upload</button>
+    </form>
+    <ul>
+        <li *ngFor="let photo of flyer.photos">
+                <img src="https://blooming-tundra-58271.herokuapp.com/{{photo.path}}" />
+        </li>
+    </ul>
+</div>

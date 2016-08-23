@@ -1,3 +1,5 @@
+import { Photo } from './photo';
+
 export class Flyer {
     id: number;
     userId: number;
@@ -10,5 +12,5 @@ export class Flyer {
     description: string;
     created_at: string;
     updated_at: string;
-    photos: any[];
+    photos: Photo[];
 }

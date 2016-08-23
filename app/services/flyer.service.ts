@@ -3,6 +3,8 @@ import { Headers, Http, Response } from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 
+import { Observable } from 'rxjs/Rx';
+
 import { Flyer } from '../flyer';
 
 import { UserService } from '../services/user.service';
@@ -11,13 +13,15 @@ import { UserService } from '../services/user.service';
 @Injectable()
 export class FlyerService {
 	private flyersUrl = 'https://blooming-tundra-58271.herokuapp.com';
+	private progressObserver: any;
+	private progress: any;
 
-        constructor(private userService: UserService, private http: Http) { }
+        constructor(private userService: UserService, private http: Http) { 
+		this.progress = Observable.create(observer => { this.progressObserver = observer }).share();
+	}
 
         getFlyers(): Promise<Flyer[]> {
 		let userId: number = this.userService.getCurrentUser().id;
-		this.userService.getUsers();
-		console.log(localStorage.getItem('user'));
 		return this.http.get(this.flyersUrl + "/user/" + userId + "/flyers") // Temporarily set the user
 			.toPromise()
 			.then(response => response.json().flyers as Flyer[])
@@ -25,7 +29,10 @@ export class FlyerService {
         }
 
         getFlyer(id: number) {
-		return this.getFlyers().then(flyers => flyers.find(flyer => flyer.id === id));
+		return this.http.get(this.flyersUrl + "/flyers/" + id)
+			.toPromise()
+			.then(response => response.json() as Flyer)
+			.catch(this.handleError);
         }
 
         private handleError(error: any): Promise<any> {
@@ -69,24 +76,51 @@ export class FlyerService {
         }
 
         save(flyer: Flyer): Promise<Flyer> {
-		// Verify the flyer's information
-		
 		flyer.userId = this.userService.getCurrentUser().id;
 		let error = this.verify(flyer);
-		
+
 		if (error !== null) {
 			return this.handleError(error);
 		}
 
-		flyer.price = flyer.price.replace(/[^0-9\.]+/g, "");		
-		
+		flyer.price = flyer.price.replace(/[^0-9\.]+/g, "");
+
 		if (flyer.id) {
 			return this.put(flyer);
 		}
 
 		return this.post(flyer);
         }
-	
+
+	uploadPhoto(flyer: Flyer, photo: any): Observable {
+		let url = `${this.flyersUrl}/${flyer.id}/photos`;
+		
+		return this.makeFileRequest(url, flyer.user_id, photo)
+//			.toPromise()
+//			.then(flyer => flyer)
+			.catch(this.handleError);
+	}
+
+	private makeFileRequest(url: string, userId: string, file: any): Observable {
+		
+		return Observable.create(observer => {
+			let formData: FormData = new FormData(),
+				xhr: XMLHttpRequest = new XMLHttpRequest();
+
+			formData.append("user_id", userId);
+			formData.append("photo", file);
+			
+			xhr.addEventListener("readystatechange", function() {
+				if (this.readyState === 4) {
+					console.log(this.responseText);
+				}
+			});
+
+			xhr.open('POST', url, true);
+			xhr.send(formData);
+		});
+	}
+
 	private verify(flyer: Flyer) {
 		let error: string[] = [];
 		if (flyer.userId === null || typeof flyer.userId === "undefined") {
@@ -113,7 +147,7 @@ export class FlyerService {
 		if (flyer.description === null || flyer.description === "" || typeof flyer.description === "undefined") {
 			error[error.length] = "Description is required";
 		}
-		
+
 		if (error.length > 0) {
 			return error.join() + " is required";
 		}

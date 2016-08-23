@@ -33,12 +33,17 @@ export class FlyerDetailComponent implements OnInit {
 		});
         }
 
-        save(): void {
+        save(isGoBack: boolean = true): void {
 		this.flyerService
 			.save(this.flyer)
 			.then(flyer => {
 				this.flyer = flyer;
-				this.goBack(flyer);
+				
+				if (isGoBack) {
+					this.goBack(flyer);
+				} else {
+					this.refresh(flyer);
+				}
 			})
 			.catch(error => this.error = error);
         }
@@ -50,4 +55,19 @@ export class FlyerDetailComponent implements OnInit {
 			window.history.back();
 		}
         }
+
+        refresh(savedFlyer: Flyer = null): void {
+		this.close.emit(savedFlyer);
+		window.location.reload();
+        }
+	
+	uploadPhoto(event): void {
+		let file: any = event.srcElement[0].files[0];
+		
+		this.flyerService
+			.uploadPhoto(this.flyer, file)
+			.toPromise()
+			.then(this.save(false))
+			.catch(error => this.error = error);
+	}
 }
