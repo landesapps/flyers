@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { FlyersComponent } from '../components/flyers.component';
 import { DashboardComponent } from '../components/dashboard.component';
 import { FlyerDetailComponent } from '../components/flyer-detail.component';
+import { UserComponent } from '../components/user.component';
 
 const appRoutes: Routes = [
 	{
@@ -11,7 +12,7 @@ const appRoutes: Routes = [
 	},
 	{
 		path: '',
-		redirectTo: '/dashboard',
+		redirectTo: '/users',
 		pathMatch: 'full'
 	},
 	{
@@ -21,6 +22,10 @@ const appRoutes: Routes = [
 	{
 		path: 'detail/:id',
 		component: FlyerDetailComponent
+	},
+	{
+		path: 'users',
+		component: UserComponent
 	}
 ];
 

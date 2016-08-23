@@ -5,15 +5,20 @@ import 'rxjs/add/operator/toPromise';
 
 import { Flyer } from '../flyer';
 
+import { UserService } from '../services/user.service';
+
 // Remove parentheses to see error
 @Injectable()
 export class FlyerService {
 	private flyersUrl = 'https://blooming-tundra-58271.herokuapp.com';
 
-        constructor(private http: Http) { }
+        constructor(private userService: UserService, private http: Http) { }
 
         getFlyers(): Promise<Flyer[]> {
-		return this.http.get(this.flyersUrl + "/user/1/flyers") // Temporarily set the user
+		let userId: number = this.userService.getCurrentUser().id;
+		this.userService.getUsers();
+		console.log(localStorage.getItem('user'));
+		return this.http.get(this.flyersUrl + "/user/" + userId + "/flyers") // Temporarily set the user
 			.toPromise()
 			.then(response => response.json().flyers as Flyer[])
 			.catch(this.handleError);
@@ -66,7 +71,7 @@ export class FlyerService {
         save(flyer: Flyer): Promise<Flyer> {
 		// Verify the flyer's information
 		
-		flyer.userId = 1;
+		flyer.userId = this.userService.getCurrentUser().id;
 		let error = this.verify(flyer);
 		
 		if (error !== null) {

@@ -11,14 +11,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
 require('rxjs/add/operator/toPromise');
+var user_service_1 = require('../services/user.service');
 // Remove parentheses to see error
 var FlyerService = (function () {
-    function FlyerService(http) {
+    function FlyerService(userService, http) {
+        this.userService = userService;
         this.http = http;
         this.flyersUrl = 'https://blooming-tundra-58271.herokuapp.com';
     }
     FlyerService.prototype.getFlyers = function () {
-        return this.http.get(this.flyersUrl + "/user/1/flyers") // Temporarily set the user
+        var userId = this.userService.getCurrentUser().id;
+        this.userService.getUsers();
+        console.log(localStorage.getItem('user'));
+        return this.http.get(this.flyersUrl + "/user/" + userId + "/flyers") // Temporarily set the user
             .toPromise()
             .then(function (response) { return response.json().flyers; })
             .catch(this.handleError);
@@ -60,7 +65,7 @@ var FlyerService = (function () {
     };
     FlyerService.prototype.save = function (flyer) {
         // Verify the flyer's information
-        flyer.userId = 1;
+        flyer.userId = this.userService.getCurrentUser().id;
         var error = this.verify(flyer);
         if (error !== null) {
             return this.handleError(error);
@@ -104,7 +109,7 @@ var FlyerService = (function () {
     };
     FlyerService = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [http_1.Http])
+        __metadata('design:paramtypes', [user_service_1.UserService, http_1.Http])
     ], FlyerService);
     return FlyerService;
 }());

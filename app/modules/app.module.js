@@ -19,6 +19,7 @@ var flyer_detail_component_1 = require('../components/flyer-detail.component');
 var flyers_component_1 = require('../components/flyers.component');
 var dashboard_component_1 = require('../components/dashboard.component');
 var flyer_service_1 = require('../services/flyer.service');
+var user_service_1 = require('../services/user.service');
 var app_routing_1 = require('../routing/app.routing');
 var AppModule = (function () {
     function AppModule() {
@@ -39,7 +40,8 @@ var AppModule = (function () {
             ],
             providers: [
                 flyer_service_1.FlyerService,
-                http_2.XHRBackend
+                http_2.XHRBackend,
+                user_service_1.UserService
             ],
             bootstrap: [app_component_1.AppComponent]
         }), 

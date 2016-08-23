@@ -5,3 +5,5 @@ typings/*
 .settings/*
 .tern-project
 *.log
+*.js
+*.map

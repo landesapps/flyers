@@ -12,6 +12,7 @@ import { FlyersComponent } from '../components/flyers.component';
 import { DashboardComponent } from '../components/dashboard.component';
 
 import { FlyerService } from '../services/flyer.service';
+import { UserService } from '../services/user.service';
 
 import { routing } from '../routing/app.routing';
 
@@ -30,7 +31,8 @@ import { routing } from '../routing/app.routing';
 	],
 	providers: [
 		FlyerService,
-		XHRBackend
+		XHRBackend,
+		UserService
 	],
 	bootstrap: [AppComponent]
 })

@@ -26,6 +26,16 @@ var UserService = (function () {
     UserService.prototype.getUser = function (id) {
         return this.getUsers().then(function (users) { return users.find(function (user) { return user.id === id; }); });
     };
+    UserService.prototype.getCurrentUser = function () {
+        var user = localStorage.getItem('user');
+        if (user !== null && typeof user !== "undefined") {
+            return JSON.parse(localStorage.getItem('user'));
+        }
+        return null;
+    };
+    UserService.prototype.setCurrentUser = function (newUser) {
+        localStorage.setItem('user', JSON.stringify(newUser));
+    };
     UserService.prototype.handleError = function (error) {
         console.error('An error occurred', error);
         return Promise.reject(error.message || error);
