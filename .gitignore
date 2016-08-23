@@ -1,0 +1,11 @@
+nbproject/*
+node_modules/*
+typings/*
+.project
+.settings/*
+.tern-project
+*.log
+*.js
+*.map
+modules/*.js
+routing/*.js

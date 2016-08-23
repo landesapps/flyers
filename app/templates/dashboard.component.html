@@ -1,0 +1,8 @@
+<h3>Top Flyers</h3>
+<div class="grid grid-pad">
+    <div *ngFor="let flyer of flyers" (click)="gotoDetail(flyer)" class="col-1-4">
+            <div class="module hero">
+            <h4>{{flyer.price}}</h4>
+        </div>
+    </div>
+</div>
