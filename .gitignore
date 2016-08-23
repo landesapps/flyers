@@ -9,3 +9,4 @@ typings/*
 *.map
 modules/*.js
 routing/*.js
+!systemjs.config.js
