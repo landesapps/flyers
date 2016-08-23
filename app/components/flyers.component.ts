@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, CanActivate } from '@angular/router';
 import { Flyer } from '../flyer';
 import { FlyerService } from '../services/flyer.service';
 @Component({

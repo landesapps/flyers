@@ -14,7 +14,7 @@ import { DashboardComponent } from '../components/dashboard.component';
 import { FlyerService } from '../services/flyer.service';
 import { UserService } from '../services/user.service';
 
-import { routing } from '../routing/app.routing';
+import { routing, appRoutingProviders } from '../routing/app.routing';
 
 @NgModule({
 	imports: [
@@ -32,7 +32,8 @@ import { routing } from '../routing/app.routing';
 	providers: [
 		FlyerService,
 		XHRBackend,
-		UserService
+		UserService,
+		appRoutingProviders
 	],
 	bootstrap: [AppComponent]
 })

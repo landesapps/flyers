@@ -16,6 +16,7 @@ export class UserComponent {
 	constructor(private router: Router, private userService: UserService) { }
 
 	ngOnInit() {
+		this.userService.setCurrentUser(null);
 		this.userService.getUsers().then(users => this.users = users);
 	}
 

@@ -5,10 +5,13 @@ import { DashboardComponent } from '../components/dashboard.component';
 import { FlyerDetailComponent } from '../components/flyer-detail.component';
 import { UserComponent } from '../components/user.component';
 
+import { AuthGuard } from '../services/auth-guard.service';
+
 const appRoutes: Routes = [
 	{
 		path: 'flyers',
-		component: FlyersComponent
+		component: FlyersComponent,
+		canActivate: [AuthGuard]
 	},
 	{
 		path: '',
@@ -17,16 +20,22 @@ const appRoutes: Routes = [
 	},
 	{
 		path: 'dashboard',
-		component: DashboardComponent
+		component: DashboardComponent,
+		canActivate: [AuthGuard]
 	},
 	{
 		path: 'detail/:id',
-		component: FlyerDetailComponent
+		component: FlyerDetailComponent,
+		canActivate: [AuthGuard]
 	},
 	{
 		path: 'users',
 		component: UserComponent
 	}
+];
+
+export const appRoutingProviders: any[] = [
+	AuthGuard,
 ];
 
 export const routing = RouterModule.forRoot(appRoutes);

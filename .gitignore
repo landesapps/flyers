@@ -7,3 +7,5 @@ typings/*
 *.log
 *.js
 *.map
+modules/*.js
+routing/*.js
